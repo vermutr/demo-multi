@@ -1,0 +1,4 @@
+rootProject.name = 'demo-multi'
+
+include 'sub-module-db'
+include 'sub-module-hello'

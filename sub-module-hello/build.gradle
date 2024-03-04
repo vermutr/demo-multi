@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id "io.spring.dependency-management" version "${springDependencyManagerVersion}"
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jar {
+    doLast {
+        project.copy {
+            from destinationDirectory
+            into getRootDir().toString() + '/build/libs'
+            exclude '*-client-*.jar', '*-service-*.jar', '*-api-*.jar', '*-plain.jar'
+            include '*sub-module-db*', '*sub-module-hello*'
+        }
+    }
+    manifest {
+        attributes(
+                'Main-Class': 'hello.HelloApplication'
+        )
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
