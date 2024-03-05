@@ -7,7 +7,7 @@ public class DatabaseUtil {
     }
 
     public static String sayDatabase() {
-        return "Database123123";
+        return "Database";
     }
 
 }
