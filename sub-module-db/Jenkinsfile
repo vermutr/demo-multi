@@ -18,19 +18,19 @@ pipeline {
 
         stage('Clean') {
             steps {
-                gradleTask('clean')
+                gradleTask('sub-module-db:clean')
             }
         }
 
         stage('Build') {
             steps {
-                gradleTask('assemble')
+                gradleTask('sub-module-db:assemble')
             }
         }
 
         stage('Test') {
             steps {
-                gradleTask('test')
+                gradleTask('sub-module-db:test')
             }
         }
 
