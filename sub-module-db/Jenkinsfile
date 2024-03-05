@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('demo-multi') _
+@Library("multi-demo") _
 
 pipeline {
     agent any
