@@ -35,8 +35,8 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            dir('sub-module-hello') {
-                steps {
+            steps {
+                dir('sub-module-hello') {
                     script {
                         buildDockerImage(registry, 'latest')
                     }
@@ -45,8 +45,8 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            dir('sub-module-hello') {
-                steps {
+            steps {
+                dir('sub-module-hello') {
                     script {
                         pushDockerImage(registry, 'latest', registryCredential)
                     }
