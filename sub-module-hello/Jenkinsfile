@@ -35,17 +35,21 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                script {
-                    buildDockerImage(registry, 'latest')
+            dir('sub-module-hello') {
+                steps {
+                    script {
+                        buildDockerImage(registry, 'latest')
+                    }
                 }
             }
         }
 
         stage('Push Docker Image') {
-            steps {
-                script {
-                    pushDockerImage(registry, 'latest', registryCredential)
+            dir('sub-module-hello') {
+                steps {
+                    script {
+                        pushDockerImage(registry, 'latest', registryCredential)
+                    }
                 }
             }
         }
