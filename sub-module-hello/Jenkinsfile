@@ -3,11 +3,50 @@
 @Library("multi-demo") _
 
 pipeline {
+    environment {
+        registry = "vermutr/hello"
+        registryCredential = 'docker-vermut'
+    }
+
     agent any
     stages {
-        stage('Example') {
+        stage('Checkout') {
             steps {
-                mySharedStep()
+                checkout scm
+            }
+        }
+
+        stage('Clean') {
+            steps {
+                gradleBuild('clean')
+            }
+        }
+
+        stage('Build') {
+            steps {
+                gradleBuild('assemble')
+            }
+        }
+
+        stage('Test') {
+            steps {
+                gradleBuild('test')
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    buildDockerImage(registry, 'latest')
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    pushDockerImage(registry, 'latest', registryCredential)
+                }
             }
         }
     }
