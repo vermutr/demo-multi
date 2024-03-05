@@ -18,19 +18,19 @@ pipeline {
 
         stage('Clean') {
             steps {
-                gradleBuild('clean')
+                gradleTask('clean')
             }
         }
 
         stage('Build') {
             steps {
-                gradleBuild('assemble')
+                gradleTask('assemble')
             }
         }
 
         stage('Test') {
             steps {
-                gradleBuild('test')
+                gradleTask('test')
             }
         }
 
