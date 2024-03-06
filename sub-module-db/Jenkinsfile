@@ -53,5 +53,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Pull from Nexus') {
+            steps {
+                dir('sub-module-db') {
+                    script {
+                        nexusPull(NEXUS_DOCKER_REPO, 'latest', NEXUS_CREDS)
+                    }
+                }
+            }
+        }
+
+
     }
 }
