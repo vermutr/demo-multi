@@ -6,6 +6,8 @@ pipeline {
     environment {
         registry = "vermutr/db"
         registryCredential = 'docker-vermut'
+        NEXUS_CREDS = 'nexus-docker'
+        NEXUS_DOCKER_REPO = '192.168.92.61:8081/repository/my-test-repo/'
     }
 
     agent any
@@ -38,7 +40,7 @@ pipeline {
             steps {
                 dir('sub-module-db') {
                     script {
-                        buildDockerImage(registry, 'latest')
+                        buildDockerImage(NEXUS_DOCKER_REPO, 'latest')
                     }
                 }
             }
@@ -48,7 +50,7 @@ pipeline {
             steps {
                 dir('sub-module-db') {
                     script {
-                        pushDockerImage(registry, 'latest', registryCredential)
+                        pushDockerImage(NEXUS_DOCKER_REPO, 'latest', NEXUS_CREDS)
                     }
                 }
             }

@@ -1,6 +1,6 @@
 def call(String imageName, String tag = 'latest', String credentialsId) {
-    withCredentials([usernamePassword(credentialsId: credentialsId, passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-        sh "echo '${env.DOCKER_PASSWORD}' | docker login --username ${env.DOCKER_USERNAME} --password-stdin"
+    withCredentials([usernamePassword(credentialsId: credentialsId, passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin 192.168.92.61:8081"
 
         def dockerPushCommand = "docker push ${imageName}:${tag}"
 
