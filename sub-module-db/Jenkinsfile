@@ -2,10 +2,17 @@
 
 @Library("multi-demo") _
 
+def remote = [:]
+remote.name ='grockdev'
+remote.host = '192.168.92.61'
+remote.allowAnyHosts = true
+
+
 pipeline {
     environment {
         NEXUS_CREDS = 'nexus-docker'
         NEXUS_DOCKER_REPO = '192.168.92.61:8082/repository/my-test-repo'
+        DEV_CRED = credentials('grockdev')
     }
 
     agent any
@@ -54,11 +61,27 @@ pipeline {
             }
         }
 
-        stage('Pull from Nexus') {
+//        stage('Pull from Nexus') {
+//            steps {
+//                dir('sub-module-db') {
+//                    script {
+//                        nexusPull(NEXUS_DOCKER_REPO, 'latest', NEXUS_CREDS)
+//                    }
+//                }
+//            }
+//        }
+
+        stage('Deploy') {
             steps {
                 dir('sub-module-db') {
                     script {
-                        nexusPull(NEXUS_DOCKER_REPO, 'latest', NEXUS_CREDS)
+                        remote.user=env.DEV_CRED_USR
+                        remote.password=env.DEV_CRED_PSW
+                        sshCommand(remote: remote, command: """
+                                    docker login 192.168.92.61:8082 -u admin -p admin &&
+                                    docker pull 192.168.92.61:8082/repository/my-test-repo:latest &&
+                                    docker run -p 8090:8090 192.168.92.61:8082/repository/my-test-repo:latest
+                                    """)
                     }
                 }
             }
