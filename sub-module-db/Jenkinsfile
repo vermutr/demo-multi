@@ -4,10 +4,8 @@
 
 pipeline {
     environment {
-        registry = "vermutr/db"
-        registryCredential = 'docker-vermut'
         NEXUS_CREDS = 'nexus-docker'
-        NEXUS_DOCKER_REPO = '192.168.92.61:8443/repository/my-test-repo'
+        NEXUS_DOCKER_REPO = '192.168.92.61:8082/repository/my-test-repo'
     }
 
     agent any
